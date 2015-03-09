@@ -3779,9 +3779,14 @@
 
 
 	PhotoSwipe.Toolbar.getToolbar = function(){
+		var html = '';
 
-		return '<div class="' + PhotoSwipe.Toolbar.CssClasses.play + '"><div class="' + PhotoSwipe.Toolbar.CssClasses.toolbarContent + '"></div></div><div class="' + PhotoSwipe.Toolbar.CssClasses.previous + '"><div class="' + PhotoSwipe.Toolbar.CssClasses.toolbarContent + '"></div></div><div class="' + PhotoSwipe.Toolbar.CssClasses.next + '"><div class="' + PhotoSwipe.Toolbar.CssClasses.toolbarContent + '"></div></div><div class="' + PhotoSwipe.Toolbar.CssClasses.close + '"><div class="' + PhotoSwipe.Toolbar.CssClasses.toolbarContent + '"></div></div>';
+		html+='<div class="' + PhotoSwipe.Toolbar.CssClasses.play + '"><i class="fa fa-play"></i></div>';
+		html+='<div class="' + PhotoSwipe.Toolbar.CssClasses.previous + '"><i class="fa fa-arrow-left"></i></div>';
+		html+='<div class="' + PhotoSwipe.Toolbar.CssClasses.next + '"><i class="fa fa-arrow-right"></i></div>';
+		html+='<div class="' + PhotoSwipe.Toolbar.CssClasses.close + '"><i class="fa fa-close"></i></div>';
 
+		return html;
 	};
 
 }
@@ -3886,8 +3891,7 @@
 			Util.DOM.setStyle(this.toolbarEl, {
 				left: 0,
 				position: 'absolute',
-				overflow: 'hidden',
-				zIndex: this.settings.zIndex
+				zIndex: this.settings.zIndex+1
 			});
 
 			if (this.settings.target === window){
@@ -3960,7 +3964,7 @@
 		 */
 		resetPosition: function(){
 
-			var width, toolbarTop, captionTop;
+			var width, toolbarTop, captionTop, prev, next, size;
 
 			if (this.settings.target === window){
 				if (this.settings.captionAndToolbarFlipPosition){
@@ -3994,6 +3998,12 @@
 				top: captionTop + 'px',
 				width: width
 			});
+
+			prev = PhotoSwipe.Toolbar.CssClasses.previous;
+			next = PhotoSwipe.Toolbar.CssClasses.next;
+			size = Util.DOM.windowHeight()-(this.settings.fontSize*3);
+
+			$('.'+prev+', .'+next).css('top', size+'px');
 		},
 
 
@@ -5284,6 +5294,7 @@
 				uiWebViewResetPositionDelay: 500,
 				target: window,
 				preventDefaultTouchEvents: true,
+				fontSize: 14,
 
 
 				// Carousel
